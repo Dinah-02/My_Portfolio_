@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import InteractiveHero from "@/components/portfolio/InteractiveHero";
+
+import { useEffect, useRef, useState } from "react";
 import {
   Github,
   Linkedin,
@@ -45,16 +47,29 @@ export const Route = createFileRoute("/")({
 });
 
 const skillGroups = [
-  { icon: Code2, title: "Languages", items: ["Java", "C++"] },
+  { icon: Code2, title: "Languages", items: ["Java", "C++", "Python", "SQL"], accent: "#20bd83" },
   {
     icon: Cpu,
     title: "Core CS",
-    items: ["Data Structures & Algorithms", "Object-Oriented Programming", "Operating Systems", "DBMS"],
+    items: ["DSA", "OOP", "Operating Systems", "DBMS"],
+    accent: "#ed43c8",
   },
-  { icon: Server, title: "Backend", items: ["Spring Boot", "REST APIs"] },
-  { icon: Layout, title: "Frontend", items: ["React.js", "JavaScript", "HTML", "CSS"] },
-  { icon: Database, title: "Databases", items: ["PostgreSQL", "MongoDB"] },
-  { icon: Wrench, title: "Tools", items: ["Git", "JWT", "Docker"] },
+  { icon: Layout, title: "Frontend", items: ["React.js", "JavaScript", "TypeScript"], accent: "#08b7c9" },
+  { icon: Server, title: "Backend", items: ["FastAPI", "Spring Boot" , "Node.js", "REST APIs"], accent: "#168cff" },
+  { icon: Database, title: "Databases", items: ["PostgreSQL", "MongoDB"], accent: "#7770f8" },
+  {
+    icon: Cpu,
+    title: "AI & ML",
+    items: ["Machine Learning", "NLP", "Deep Learning", "Scikit-Learn", "TensorFlow"],
+    accent: "#f4b400",
+  },
+  {
+    icon: Database,
+    title: "Data & Visualization",
+    items: ["Power BI", "Pandas", "NumPy", "Matplotlib"],
+    accent: "#ff6547",
+  },
+  { icon: Wrench, title: "Developer Tools", items: ["Git", "Docker", "Kubernetes"], accent: "#20bd83" },
 ];
 
 const projects = [
@@ -89,7 +104,13 @@ const experience = [
     role: "Software Development Intern",
     company: "Winjit Technologies, Nashik",
     period: "May 2023 – July 2023",
-    desc: "Gained exposure to enterprise software development workflows and backend engineering practices.",
+    desc: "Worked on enterprise software development workflows, contributed to database operations and debugging in a collaborative development environment.",
+  },
+  {
+    role: "Frontend Development Intern",
+    company: "Sumago Infotech Pvt. Ltd.",
+    period: "June 2024 – August 2024",
+    desc: "Developed responsive user interfaces using React.js, HTML, CSS, and JavaScript. Integrated frontend components with backend APIs to improve application functionality.",
   },
   {
     role: "Technical Intern",
@@ -100,9 +121,41 @@ const experience = [
 ];
 
 const achievements = [
-  'Published research paper "RescueLink Pro" in IJNRD',
-  "Winner — Sanjivani Hackathon 2024",
-  "Top 10 Finalist — NASA Space Apps Challenge",
+  {
+    number: "01",
+    title: "Research Paper Published",
+    description:
+      'Published the research paper “RescueLink Pro: Pioneering Android App for Intuitive Emergency Helpline Services and System” in IJNRD.',
+    category: "Research & Publication",
+  },
+  {
+    number: "02",
+    title: "Winner — Sanjivani Hackathon 2024",
+    description:
+      "Recognized as a winner at Sanjivani Hackathon 2024 for hackathon project work.",
+    category: "Hackathon & Innovation",
+  },
+  {
+    number: "03",
+    title: "Top 10 Finalist — NASA Space Apps Challenge",
+    description:
+      "Reached the Top 10 finalist position in the NASA Space Apps Challenge.",
+    category: "Competition & Problem Solving",
+  },
+  {
+    number: "04",
+    title: "200+ Coding Problems Solved",
+    description:
+      "Solved over 200 problems on LeetCode, demonstrating consistent practice in data structures, algorithms, and problem-solving.",
+    category: "Coding & DSA",
+  },
+  {
+    number: "05",
+    title: "Hands-on Software Development Experience",
+    description:
+      "Gained practical development experience through internships at Winjit Technologies and Sumago Infotech, working with software workflows, debugging, frontend development, and API integration.",
+    category: "Professional Experience",
+  },
 ];
 
 function Index() {
@@ -111,13 +164,13 @@ function Index() {
       <Navbar />
       <main>
         <Hero />
-        <About />
+        <ScrollRevealHeadline />
         <Skills />
         <Projects />
         <Experience />
         <Achievements />
         <Resume />
-        <Contact />
+        <Contact/>
       </main>
       <Footer />
     </div>
@@ -136,71 +189,11 @@ function SectionHeader({ kicker, title }: { kicker: string; title: string }) {
   );
 }
 
+
 function Hero() {
-  return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 bg-hero-glow pointer-events-none" />
-      <div className="absolute inset-0 grid-bg pointer-events-none" />
-      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/20 blur-3xl animate-pulse-glow pointer-events-none" />
-      <div className="absolute bottom-0 -left-32 w-96 h-96 rounded-full bg-primary-glow/10 blur-3xl animate-pulse-glow pointer-events-none" />
-
-      <div className="relative max-w-6xl mx-auto px-6 w-full">
-        <Reveal>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/50 backdrop-blur text-xs text-muted-foreground mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Available for software engineering roles
-          </div>
-        </Reveal>
-
-        <Reveal delay={80}>
-          <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
-            Dinah Khan
-          </h1>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <p className="mt-4 text-xl md:text-2xl text-gradient font-medium">
-            Java Full-Stack Developer
-          </p>
-        </Reveal>
-
-        <Reveal delay={240}>
-          <p className="mt-6 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            Passionate about building scalable backend systems, enterprise applications, and modern
-            full-stack solutions using Java, Spring Boot, React.js, and PostgreSQL.
-          </p>
-        </Reveal>
-
-        <Reveal delay={320}>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 px-5 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:shadow-glow transition-all"
-            >
-              View Projects
-              <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href="/resume.pdf"
-              download
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-border bg-card/40 hover:bg-card text-foreground font-medium text-sm transition-colors"
-            >
-              <Download size={16} /> Download Resume
-            </a>
-            <div className="flex items-center gap-2 ml-2">
-              <IconLink href="https://github.com/Dinah-02" label="GitHub">
-                <Github size={18} />
-              </IconLink>
-              <IconLink href="https://www.linkedin.com/" label="LinkedIn">
-                <Linkedin size={18} />
-              </IconLink>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
+  return <InteractiveHero />;
 }
+
 
 function IconLink({
   href,
@@ -224,86 +217,138 @@ function IconLink({
   );
 }
 
-function About() {
+const headlineWords = ["I", "build", "systems", "that", "work", "beyond", "the", "surface."];
+
+function ScrollRevealHeadline() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let frame = 0;
+    const updateProgress = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        // The words stay gray until the About section reaches the top of the viewport.
+        const distanceScrolledInsideSection = Math.max(0, -rect.top);
+        const availableScroll = Math.max(1, section.offsetHeight - window.innerHeight);
+        setProgress(Math.max(0, Math.min(1, distanceScrolledInsideSection / availableScroll)));
+      });
+    };
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
+
   return (
-    <section id="about" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="01 — About" title="Building reliable software, end to end." />
-        <div className="grid md:grid-cols-3 gap-10">
-          <Reveal className="md:col-span-2">
-            <div className="space-y-5 text-muted-foreground leading-relaxed">
-              <p>
-                I'm a Java Full-Stack Developer with a strong foundation in{" "}
-                <span className="text-foreground">Java, OOP, Data Structures & Algorithms,
-                Operating Systems, and DBMS</span>. My focus is on backend engineering and
-                designing scalable systems that hold up in real enterprise environments.
-              </p>
-              <p>
-                I build production-grade applications using{" "}
-                <span className="text-foreground">Spring Boot, React.js, REST APIs, and
-                PostgreSQL</span>, with an eye for clean architecture, performance, and
-                maintainability across the full stack.
-              </p>
-              <p>
-                I enjoy solving hard problems — from designing multi-tenant SaaS workflows to
-                tightening API security — and I'm driven by a passion for enterprise software
-                development done right.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <div className="rounded-lg border border-border bg-card/50 p-6 shadow-card-soft">
-              <div className="text-xs uppercase tracking-widest text-primary mb-4">Focus</div>
-              <ul className="space-y-3 text-sm">
-                {[
-                  "Backend engineering",
-                  "Scalable system design",
-                  "REST API design",
-                  "Full-stack delivery",
-                  "Enterprise software",
-                ].map((f) => (
-                  <li key={f} className="flex items-center gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    <span className="text-foreground/90">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </div>
+    <section ref={sectionRef} id="about" className="about-section scroll-headline-section">
+      <div
+        className="scroll-headline-stage"
+        onPointerMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty("--dot-x", `${e.clientX - rect.left}px`);
+          e.currentTarget.style.setProperty("--dot-y", `${e.clientY - rect.top}px`);
+        }}
+      >
+      <div className="scroll-headline-content">
+        <p className="scroll-headline-label"></p>
+        <h2 className="scroll-headline" aria-label="I build systems that work beyond the surface.">
+          {headlineWords.map((word, index) => {
+            // Reveal in scroll-controlled groups: first 2 words, next 3, then the final 3.
+            const revealGroups = [0, 0, 1, 1, 1, 2, 2, 2];
+            const groupProgress = progress * 3;
+            const darkness = Math.max(0, Math.min(1, groupProgress - revealGroups[index]));
+            return (
+              <span
+                key={`${word}-${index}`}
+                className="scroll-headline-word"
+                style={{ color: `color-mix(in srgb, #1c1c1c ${darkness * 100}%, #eeeeef)` }}
+              >
+                {word}{index < headlineWords.length - 1 ? " " : ""}
+              </span>
+            );
+          })}
+        </h2>
+        <p className="scroll-headline-description">
+          I design and build full-stack applications with a focus on backend systems, clean architecture, and practical engineering.
+        </p>
+      </div>
       </div>
     </section>
   );
 }
 
+
 function Skills() {
   return (
-    <section id="skills" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="02 — Skills" title="A pragmatic, full-stack toolkit." />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <section id="skills" className="relative bg-white py-20 text-white md:py-28">
+      <div className="mx-auto max-w-[1380px] px-6 md:px-10">
+        <div className="mb-12 max-w-[1050px] text-[#1c1c1c] md:mb-14">
+          <h2 className="m-0 text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.06em] sm:text-5xl md:text-6xl lg:text-7xl">
+            A pragmatic, full-stack toolkit.
+          </h2>
+          <div className="mt-6 h-[2px] w-20 bg-[#1c1c1c]" />
+        </div>
+
+        <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-4 md:gap-5">
           {skillGroups.map((g, i) => {
             const Icon = g.icon;
             return (
-              <Reveal key={g.title} delay={i * 70}>
-                <div className="group h-full rounded-lg border border-border bg-card/40 p-6 hover:border-primary/40 hover:bg-card transition-all hover:-translate-y-0.5 shadow-card-soft">
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="grid place-items-center w-9 h-9 rounded-md bg-primary/10 text-primary border border-primary/30 group-hover:shadow-glow transition-shadow">
+              <Reveal key={g.title} delay={i * 35}>
+                <article
+                  className="group relative flex h-full min-h-[205px] flex-col overflow-hidden rounded-xl border bg-white p-5 text-[#1c1c1c] shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 sm:min-h-[220px] md:p-6"
+                  style={{
+                    borderColor: `${g.accent}66`,
+                    ["--skill-accent" as string]: g.accent,
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.025)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = g.accent;
+                    e.currentTarget.style.boxShadow = `0 0 0 1px ${g.accent}22, 0 8px 24px ${g.accent}12`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = `${g.accent}66`;
+                    e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.025)";
+                  }}
+                >
+                  <div className="mb-5 flex items-center gap-3">
+                    <span
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-md border bg-white transition-colors duration-300"
+                      style={{ borderColor: `${g.accent}66`, color: g.accent }}
+                    >
                       <Icon size={16} />
                     </span>
-                    <h3 className="font-medium">{g.title}</h3>
+                    <h3 className="text-lg font-semibold leading-tight tracking-[-0.025em] sm:text-xl">
+                      {g.title}
+                    </h3>
                   </div>
+
+                  <div
+                    className="mb-4 h-px w-full transition-colors duration-300"
+                    style={{ backgroundColor: `${g.accent}35` }}
+                  />
+
                   <div className="flex flex-wrap gap-2">
                     {g.items.map((it) => (
                       <span
                         key={it}
-                        className="text-xs px-2.5 py-1 rounded-md bg-secondary/60 border border-border text-muted-foreground"
+                        className="rounded border bg-white px-3 py-1.5 text-sm font-medium leading-tight text-black"
+                        style={{ borderColor: `${g.accent}55` }}
                       >
                         {it}
                       </span>
                     ))}
                   </div>
-                </div>
+                </article>
               </Reveal>
             );
           })}
@@ -313,54 +358,67 @@ function Skills() {
   );
 }
 
+
 function Projects() {
   return (
-    <section id="projects" className="py-24 md:py-32 relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="03 — Projects" title="Selected engineering work." />
-        <div className="grid md:grid-cols-2 gap-6">
+    <section id="projects" className="projects-transition-out relative bg-white py-20 text-white md:py-28">
+      <div className="mx-auto max-w-[1380px] px-6 md:px-10">
+        <div className="mb-14 max-w-[1050px] text-[#1c1c1c] md:mb-16">
+          <h2 className="m-0 text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.06em] sm:text-5xl md:text-6xl lg:text-7xl">
+            Selected software engineering projects.
+          </h2>
+          <div className="mt-6 h-[2px] w-20 bg-[#1c1c1c]" />
+        </div>
+        <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
           {projects.map((p, i) => (
-            <Reveal key={p.title} delay={i * 90}>
-              <article className="group relative h-full rounded-xl border border-border bg-card/50 p-7 overflow-hidden hover:border-primary/40 transition-all hover:-translate-y-1 shadow-card-soft">
-                <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-primary/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="text-lg md:text-xl font-semibold tracking-tight leading-snug">
-                      {p.title}
-                    </h3>
-                    <a
-                      href="https://github.com/Dinah-02"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${p.title} on GitHub`}
-                      className="shrink-0 grid place-items-center w-9 h-9 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
-                    >
-                      <ArrowUpRight size={16} />
-                    </a>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                    {p.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {p.stack.map((s) => (
-                      <span
-                        key={s}
-                        className="text-[11px] tracking-wide px-2 py-0.5 rounded border border-primary/30 bg-primary/10 text-primary"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
+            <Reveal key={p.title} delay={i * 35}>
+              <article
+                className="group relative flex h-full min-h-[470px] flex-col overflow-hidden rounded-xl p-6 sm:min-h-[490px] md:min-h-[510px] md:p-7 text-white shadow-sm transition-all duration-150 ease-out hover:-translate-y-0.5"
+                style={{
+                  background: "linear-gradient(145deg, #0648df 0%, #0739c4 100%)",
+                  backgroundImage: "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(145deg, #0648df 0%, #0739c4 100%)",
+                  backgroundSize: "5px 5px, 5px 5px, auto",
+                }}
+              >
+                <div className="mb-7 flex items-center justify-between gap-4">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/75">
+                    {String(i + 1).padStart(2, "0")} / PROJECT
+                  </span>
                   <a
                     href="https://github.com/Dinah-02"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-foreground/80 hover:text-primary transition-colors"
+                    aria-label={`${p.title} on GitHub`}
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/35 text-white transition-colors duration-150 hover:bg-white hover:text-blue-700"
                   >
-                    <Github size={14} /> View on GitHub
+                    <ArrowUpRight size={19} />
                   </a>
                 </div>
+                <h3 className="mb-5 max-w-[540px] text-[1.65rem] font-medium leading-[1.08] tracking-[-0.045em] md:text-[1.8rem]">
+                  {p.title}
+                </h3>
+                <div className="mb-5 h-px w-full bg-white/25" />
+                <p className="mb-7 text-[15px] leading-[1.55] text-white/85 md:text-base">
+                  {p.description}
+                </p>
+                <div className="mt-auto flex flex-wrap gap-2 pb-6">
+                  {p.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded border border-white/30 px-2.5 py-1 text-[11px] leading-tight text-white/90"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href="https://github.com/Dinah-02"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 self-start text-xs font-semibold text-white transition-opacity duration-150 hover:opacity-75"
+                >
+                  <Github size={14} /> View on GitHub <ArrowUpRight size={13} />
+                </a>
               </article>
             </Reveal>
           ))}
@@ -372,24 +430,34 @@ function Projects() {
 
 function Experience() {
   return (
-    <section id="experience" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="04 — Experience" title="Where I've worked." />
-        <div className="relative pl-6 md:pl-8 border-l border-border space-y-8">
+    <section id="experience" className="relative bg-white py-16 text-[#1c1c1c] md:py-20">
+      <div className="mx-auto max-w-[1380px] px-6 md:px-10">
+        <Reveal>
+          <div className="mb-10 max-w-[1050px] md:mb-12">
+            <h2 className="m-0 text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.06em] text-[#1c1c1c] sm:text-5xl md:text-6xl lg:text-7xl">
+              Where I've worked.
+            </h2>
+            <div className="mt-6 h-[2px] w-20 bg-[#1c1c1c]" />
+          </div>
+        </Reveal>
+
+        <div className="relative space-y-4 border-l border-[#dededb] pl-5 sm:pl-6 md:space-y-5 md:pl-8">
           {experience.map((e, i) => (
-            <Reveal key={e.role} delay={i * 100}>
-              <div className="relative">
-                <span className="absolute -left-[31px] md:-left-[37px] top-2 w-3 h-3 rounded-full bg-primary ring-4 ring-background" />
-                <div className="rounded-lg border border-border bg-card/40 p-6 hover:border-primary/40 transition-colors">
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mb-2">
-                    <Briefcase size={12} className="text-primary" />
-                    <span>{e.period}</span>
-                  </div>
-                  <h3 className="font-medium text-foreground">{e.role}</h3>
-                  <div className="text-sm text-primary mb-3">{e.company}</div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{e.desc}</p>
+            <Reveal key={e.role} delay={i * 140}>
+              <article className="group relative rounded-xl border border-[#e5e5e2] bg-[#f4f4f2] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[#0648df] hover:shadow-[0_0_0_1px_#0648df] md:p-6">
+                <span className="absolute -left-[27px] top-7 h-3 w-3 rounded-full border-2 border-white bg-[#0648df] ring-1 ring-[#0648df] md:-left-[40px]" />
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-[#777777]">
+                  <Briefcase size={13} className="text-[#555555]" />
+                  <span>{e.period}</span>
                 </div>
-              </div>
+                <h3 className="text-lg font-semibold tracking-tight text-[#1c1c1c] md:text-xl">
+                  {e.role}
+                </h3>
+                <div className="mb-2 mt-1 text-sm text-[#454545]">{e.company}</div>
+                <p className="max-w-4xl text-sm leading-relaxed text-[#666666] md:text-base">
+                  {e.desc}
+                </p>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -400,16 +468,38 @@ function Experience() {
 
 function Achievements() {
   return (
-    <section id="achievements" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="05 — Achievements" title="Recognition & milestones." />
-        <div className="grid md:grid-cols-3 gap-5">
+    <section id="achievements" className="achievements-dots relative py-16 md:py-20">
+      <div className="relative z-10 mx-auto max-w-[1380px] px-6 md:px-10">
+        <Reveal>
+          <div className="mb-10 max-w-[1050px] md:mb-12">
+            <h2 className="m-0 text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.06em] text-[#1c1c1c] sm:text-5xl md:text-6xl lg:text-7xl">
+              Recognition &amp; milestones.
+            </h2>
+            <div className="mt-6 h-[2px] w-20 bg-[#1c1c1c]" />
+          </div>
+        </Reveal>
+        <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-4 md:grid-cols-2">
           {achievements.map((a, i) => (
-            <Reveal key={a} delay={i * 80}>
-              <div className="h-full rounded-lg border border-border bg-card/40 p-6 hover:border-primary/40 transition-colors shadow-card-soft">
-                <Award size={18} className="text-primary mb-4" />
-                <p className="text-sm text-foreground/90 leading-relaxed">{a}</p>
-              </div>
+            <Reveal key={a.number} delay={i * 70}>
+              <article className="achievement-card group h-full rounded-md border border-[#0648df]/45 bg-white/95 p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[#0648df] hover:shadow-[0_0_0_1px_rgba(6,72,223,0.16)] md:p-5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <span className="text-xs font-semibold tracking-[0.12em] text-[#0648df]">
+                    {a.number}
+                  </span>
+                  <span className="h-px flex-1 bg-[#0648df]/20 transition-colors duration-200 group-hover:bg-[#0648df]/50" />
+                </div>
+                <h3 className="mb-2 text-lg font-bold leading-tight tracking-[-0.035em] text-[#1c1c1c] md:text-xl">
+                  {a.title}
+                </h3>
+                <p className="mb-4 text-sm leading-relaxed text-[#555555]">
+                  {a.description}
+                </p>
+                <div className="border-t border-[#0648df]/15 pt-3">
+                  <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#666666]">
+                    {a.category}
+                  </span>
+                </div>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -420,26 +510,26 @@ function Achievements() {
 
 function Resume() {
   return (
-    <section id="resume" className="py-24 md:py-32 relative">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="resume" className="relative overflow-hidden bg-white py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <div className="relative rounded-2xl border border-border bg-card/50 p-10 md:p-14 text-center overflow-hidden">
-            <div className="absolute inset-0 bg-hero-glow opacity-50 pointer-events-none" />
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-2xl border border-[#0648df] bg-card/50 p-10 text-center md:p-14">
+            <div className="pointer-events-none absolute inset-0 bg-hero-glow opacity-50" />
             <div className="relative">
-              <div className="text-xs uppercase tracking-[0.2em] text-primary mb-3">
-                06 — Resume
+              <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[#0648df]">
+
               </div>
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+              <h2 className="text-3xl font-bold tracking-tight text-[#1c1c1c] md:text-4xl">
                 Want the full picture?
               </h2>
-              <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+              <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#555555] md:text-lg">
                 Grab my resume for a complete overview of experience, projects, and engineering
                 skills.
               </p>
               <a
                 href="/resume.pdf"
                 download
-                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:shadow-glow transition-all"
+                className="mt-8 inline-flex items-center gap-2 rounded-md bg-[#0648df] px-6 py-3 font-semibold text-white transition-colors duration-200 hover:bg-[#0038bd]"
               >
                 <Download size={16} /> Download Resume
               </a>
@@ -451,166 +541,96 @@ function Resume() {
   );
 }
 
+
+
 function Contact() {
-  const [status, setStatus] = useState<"idle" | "sent">("idle");
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio contact from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:dinahkhan02@gmail.com?subject=${subject}&body=${body}`;
-    setStatus("sent");
-  };
-
   return (
-    <section id="contact" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader kicker="07 — Contact" title="Let's build something solid." />
-        <div className="grid md:grid-cols-2 gap-10">
-          <Reveal>
-            <div className="space-y-6">
-              <p className="text-muted-foreground leading-relaxed max-w-md">
-                Open to backend, full-stack, and software engineering roles. The fastest way to
-                reach me is email — I usually reply within a day.
-              </p>
-              <div className="space-y-3 text-sm">
-                <a
-                  href="mailto:dinahkhan02@gmail.com"
-                  className="flex items-center gap-3 text-foreground/90 hover:text-primary transition-colors"
-                >
-                  <span className="grid place-items-center w-9 h-9 rounded-md border border-border bg-card/40">
-                    <Mail size={15} />
-                  </span>
-                  dinahkhan02@gmail.com
-                </a>
-                <a
-                  href="https://github.com/Dinah-02"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-foreground/90 hover:text-primary transition-colors"
-                >
-                  <span className="grid place-items-center w-9 h-9 rounded-md border border-border bg-card/40">
-                    <Github size={15} />
-                  </span>
-                  github.com/Dinah-02
-                </a>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <span className="grid place-items-center w-9 h-9 rounded-md border border-border bg-card/40">
-                    <MapPin size={15} />
-                  </span>
-                  India
-                </div>
-              </div>
-            </div>
-          </Reveal>
+    <section id="contact" className="bg-white px-6 py-20 md:py-28">
+      <div className="mx-auto max-w-[1380px]">
+        <div className="max-w-[850px]">
+          <h2 className="m-0 text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.06em] text-[#1c1c1c] sm:text-5xl md:text-6xl">
+            Let's build something meaningful.
+          </h2>
 
-          <Reveal delay={120}>
-            <form
-              onSubmit={onSubmit}
-              className="rounded-xl border border-border bg-card/50 p-6 md:p-8 space-y-4 shadow-card-soft"
+          <div className="mt-6 h-[2px] w-20 bg-[#1c1c1c]" />
+
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#626262]">
+            Have a project, an opportunity, or an idea worth discussing?
+            I'd love to hear from you.
+          </p>
+
+          <div className="mt-10 flex flex-col gap-5 text-base sm:flex-row sm:flex-wrap sm:gap-8">
+            <a
+              href="mailto:dinahkhan02@gmail.com"
+              className="text-[#1c1c1c] underline decoration-[#0645e5]/50 underline-offset-4 transition-colors hover:text-[#0645e5]"
             >
-              <Field
-                label="Name"
-                value={form.name}
-                onChange={(v) => setForm({ ...form, name: v })}
-                required
-              />
-              <Field
-                label="Email"
-                type="email"
-                value={form.email}
-                onChange={(v) => setForm({ ...form, email: v })}
-                required
-              />
-              <div>
-                <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
-                  Message
-                </label>
-                <textarea
-                  required
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  maxLength={2000}
-                  className="w-full rounded-md bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/40 transition-colors resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:shadow-glow transition-all"
-              >
-                <Send size={15} />
-                {status === "sent" ? "Opening your mail app…" : "Send message"}
-              </button>
-            </form>
-          </Reveal>
+              dinahkhan02@gmail.com
+            </a>
+
+            <a
+              href="https://github.com/Dinah-02"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#1c1c1c] underline decoration-[#0645e5]/50 underline-offset-4 transition-colors hover:text-[#0645e5]"
+            >
+              GitHub ↗
+            </a>
+
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#1c1c1c] underline decoration-[#0645e5]/50 underline-offset-4 transition-colors hover:text-[#0645e5]"
+            >
+              LinkedIn ↗
+            </a>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Field({
-  label,
-  value,
-  onChange,
-  type = "text",
-  required,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
-        {label}
-      </label>
-      <input
-        type={type}
-        required={required}
-        value={value}
-        maxLength={255}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/40 transition-colors"
-      />
-    </div>
-  );
-}
+
 
 function Footer() {
   return (
-    <footer className="border-t border-border/60 mt-10">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-        <div>© {new Date().getFullYear()} Dinah Khan. Crafted with care.</div>
-        <div className="flex items-center gap-3">
+    <footer className="mt-10 border-t border-[#0648df]/20 bg-white">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-6 py-8 text-sm text-[#555555] md:flex-row">
+        <div>
+          © {new Date().getFullYear()} Dinah Khan.
+          <span className="ml-1 text-[#1c1c1c]">
+            Software Engineer Portfolio
+          </span>
+        </div>
+
+        <div className="flex items-center gap-5">
           <a
             href="https://github.com/Dinah-02"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="hover:text-primary transition-colors"
+            className="transition-colors duration-200 hover:text-[#0648df]"
           >
-            <Github size={16} />
+            <Github size={18} />
           </a>
+
           <a
             href="https://www.linkedin.com/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="hover:text-primary transition-colors"
+            className="transition-colors duration-200 hover:text-[#0648df]"
           >
-            <Linkedin size={16} />
+            <Linkedin size={18} />
           </a>
+
           <a
             href="mailto:dinahkhan02@gmail.com"
             aria-label="Email"
-            className="hover:text-primary transition-colors"
+            className="transition-colors duration-200 hover:text-[#0648df]"
           >
-            <Mail size={16} />
+            <Mail size={18} />
           </a>
         </div>
       </div>

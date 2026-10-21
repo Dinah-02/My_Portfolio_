@@ -8,7 +8,7 @@ const links = [
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
   { href: "#resume", label: "Resume" },
-  { href: "#contact", label: "Contact" },
+
 ];
 
 export function Navbar() {
@@ -30,35 +30,48 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#home" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="grid place-items-center w-8 h-8 rounded-md bg-primary/10 text-primary border border-primary/30">
-            <Code2 size={16} />
-          </span>
-          <span>Dinah<span className="text-primary">.</span></span>
-        </a>
+      
+<nav className="relative w-full h-14 px-4 sm:px-6 flex items-center justify-between">
+  {/* Brand — top left */}
+  <a
+    href="#home"
+    className="text-[20px] font-bold tracking-[-0.8px] text-[#1c1c1c] shrink-0"
+  >
+    Dinah Khan
+  </a>
 
-        <ul className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="hover:text-foreground transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-primary hover:after:w-full after:transition-all"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
+  {/* Navigation — centered */}
+  <ul className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7 text-sm text-muted-foreground">
+    {links.map((l) => (
+      <li key={l.href}>
+        <a
+          href={l.href}
+          className="hover:text-foreground transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-primary hover:after:w-full after:transition-all"
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </nav>
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  {/* Let's Connect — top right */}
+  <a
+    href="#contact"
+    className="shrink-0 rounded-full bg-[#1c1c1c] px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#0645e5] hover:shadow-[0_4px_16px_rgba(6,69,229,0.22)]"
+  >
+    Let's Connect
+  </a>
+
+  {/* Mobile menu button */}
+  <button
+    className="md:hidden text-foreground"
+    onClick={() => setOpen((v) => !v)}
+    aria-label="Toggle menu"
+  >
+    {open ? <X size={22} /> : <Menu size={22} />}
+  </button>
+</nav>
+
 
       {open && (
         <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl">
